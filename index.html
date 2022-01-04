@@ -10,35 +10,49 @@
         * {
             font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
         }
+
+        h1 {
+            font-size: 72px;
+            text-shadow: 1px 1px 2px orange;
+            margin: 0 0 0 30px;
+        }
+
+        .divbox {
+            /* inspiration: https://stackoverflow.com/questions/49653136/css-glassy-slightly-folded-borders-3d-effect */
+            box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23), 0 0 5px #aa0 inset;
+	        border-radius: 10px;
+            margin: 10px;
+	        padding: 10px;
+            max-width: 600px;
+        }
+
     </style>
 </head>
   
 <body>
 
 <h1>Introduction</h1>
-    <p>
-        I am a programming instructor with a background in engineering and physics.
-        My special interest is in modeling physical and social phenomena,
-        and I have recently taken up business process modeling with Simio.
-    </p>
-    <p>
-        While I was teaching my students about visual and object oriented programming,
-        I have been inspired -and frequently taught- by them about the wonders of
-        web applications.
-        I intend to develop my own web applications in the near future.
-    </p>
-    <p>
-        My most important work is a WPF-based class/control library
-        which will -hopefully- be used by students and researchers
-        to develop computer-based psychology experiments.
-        This library is a part of my HurPsy project which is housed on GitHub.
-        HurPsy also includes a WPF Windows application which will help
-        non-programmers to design psychology experiments.
-    </p>
-
-    <p>
+    <div class="divbox">
+        <p>
+            I am a programming instructor with a background in engineering and physics.
+            My special interest is in modeling physical and social phenomena,
+            while I also advance myself in business process modeling with Simio.
+        </p> 
+    </div>
+    <div class="divbox">
+        <p>
+            My most important work is a WPF-based class/control library
+            which will -hopefully- be used by students and researchers
+            to develop computer-based psychology experiments.
+            This library is a part of my HurPsy project which is housed on GitHub.
+            HurPsy also includes a WPF Windows application which will help
+            non-programmers to design psychology experiments.
+        </p>
+    </div>
+ 
+    <div class="divbox">
         For my professional profile, please see my
         <a href="https://www.linkedin.com/in/h%C3%BCrol-aslan-4ba5ab62/">LinkedIn profile</a>.
-    </p>
+    </div>
 </body>
 </html>
