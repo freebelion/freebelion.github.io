@@ -30,6 +30,49 @@
 		    Son projem Angular platformunda soru bankası ve test oluşturacak bir uygulamadır.
             Aşağıda bu projeyi oluştururken izlediğim adımları açıklayacağım.
 	    </div>
+
+        <div class="row m-2 p-1">
+		    Bilgisayarınızda henüz Angular kurulumu yapmadıysanız,
+            öncelikle node.js ve npm kurulumu yapmış olmanız gerekiyor.
+        </div>
+
+        <div class="row m-2 p-1">
+            <ul class="list-group">
+                <li class="list-group-item">
+                    Windows ortamında çalışıyorsanız,
+                    <a href="https://nodejs.org/en/download/">https://nodejs.org/en/download/</a>
+                    sitesinden en son kurulum dosyasını
+                    indirip kurulum yapınız.
+                    Bundan sonra, Windows komut penceresinde
+                    <strong>(cmd)</strong>
+                    veya yönetici yetkisiyle açacağınız
+                    bir Powershell penceresinde<br />
+                    <code>npm install -g @angular/cli</code><br />
+                    komutunu çalıştırarak Angular kurulumunu yapabilirsiniz.
+                    <ul class="list-group">
+                        <li class="list-group-item m-1">
+                            Powershell kullanacaksanız,
+                            (daha önce yapmadıysanız)<br />
+                            <code>Set-ExecutionPolicy RemoteSigned</code><br />
+                            komutuyla kendinize
+                            skript çalıştırma izni vermeniz gerekebilir.
+                        </li>
+                    </ul>
+                </li>
+                <li class="list-group-item">
+                    Linux ortamında çalışıyorsanız,
+                    paket yöneticisiyle kuracağınız node.js ve npm
+                    eski bir sürüm olabileceği için,
+                    Angular kurmaya kalktığınızda hata mesajıyla karşılaşabilirsiniz.
+                    Böyle bir durumda ya node.js ve npm sürümlerinizi yenilemek,
+                    ya da paket yöneticisine başka kaynaklar ekleyip
+                    oradan son sürümleri kurmak yoluna gidebilirsiniz.
+                    Bir başka yol da <strong>nvm</strong>
+                    paketini kurup, onun aracılığıyla
+                    son node.js ve npm sürümlerini kurmaktır.
+                </li>
+            </ul>
+	    </div>
     </div>
 </body>
 </html>
