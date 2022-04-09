@@ -3,31 +3,18 @@
     background-repeat: repeat;
 }
 
-
-.myrow {
-    @extend row;
-    border-radius: .35rem;
-    margin: .25rem;
-    padding: .25rem;
-    background-color: rgba(200, 200, 200, .25);
-    backdrop-filter: blur(25px);
-}
-
-.list-group {
-    margin: .25rem;
-    padding: .15rem;
-}
-
 .list-group-item {
-    margin: .25rem;
-    padding: .15rem;
     background-color: rgba(255, 255, 255, .25);
     backdrop-filter: blur(25px);
 }
 
 pre {
-    margin: .25rem;
-    padding: .15rem;
     background-color: rgba(255, 255, 255, .25);
-    backdrop-filter: blur(50px);
+    backdrop-filter: blur(25px);
+}
+
+.container {
+    border-radius: .35rem;
+    background-color: rgba(200, 200, 200, .25);
+    backdrop-filter: blur(25px);
 }
