@@ -25,7 +25,8 @@
         <div class="myrow">
 		    <h2>Ön Hazırlıklar</h2>
             Bilgisayarınızda henüz Angular kurulumu yapmadıysanız,
-            öncelikle node.js ve npm kurulumu yapmış olmalısınız.
+            öncelikle <strong>node.js</strong> ve <strong>npm</strong>
+            kurulumu yapmış olmalısınız.
         
             <ul class="list-group">
                 <li class="list-group-item">
@@ -37,13 +38,13 @@
                     <strong>(cmd)</strong>
                     veya yönetici yetkisiyle açacağınız
                     bir Powershell penceresinde<br />
-                    <code>npm install -g @angular/cli</code><br />
+                    <kbd>npm install -g @angular/cli</kbd><br />
                     komutunu çalıştırarak Angular kurulumunu yapabilirsiniz.
                     <ul class="list-group">
                         <li class="list-group-item m-1">
                             Powershell kullanacaksanız,
                             (daha önce yapmadıysanız)<br />
-                            <code>Set-ExecutionPolicy RemoteSigned</code><br />
+                            <kbd>Set-ExecutionPolicy RemoteSigned</kbd><br />
                             komutuyla kendinize
                             skript çalıştırma izni vermeniz gerekebilir.
                         </li>
@@ -59,7 +60,7 @@
                     oradan son sürümleri kurmak yoluna gidebilirsiniz.
                     Bir başka yol da <strong>nvm</strong>
                     paketini kurup, onun aracılığıyla
-                    son node.js ve npm sürümlerini kurmaktır.
+                    son <strong>node.js</strong> ve <strong>npm</strong> sürümlerini kurmaktır.
                 </li>
             </ul>
 	    </div>
@@ -69,11 +70,11 @@
             ama projeyi onunla oluşturmadım.
             Visual Studio ortamını proje organizasyonunu gözden kaçırmadan
             kod dosyalarını düzenlemek için kullanacağım.
-            <div class="row mt-2">
-                <div class="col-sm-8">
+            <div class="row m-2">
+                <div class="col-lg-8">
                     <img src="images/Resim1_AngularProjesiOlusturmak.png" class="img-fluid" alt="Angular Projesi Oluşturmak"/>
                 </div>
-                <div class="col-sm-4">
+                <div class="col-lg-4">
                     Proje şablonu olarak, Web platformu kategorisinden
                     Standalone Angular şablonunu seçtim.
                 </div>
@@ -81,11 +82,11 @@
         </div>
         <div class="myrow">
 		    <h3>Proje Görünümü</h3>
-            <div class="row mt-2">
-                <div class="col-sm-8">
+            <div class="row m-2">
+                <div class="col-lg-8">
                     <img src="images/Resim2_AngularProjesiOlusturuldu.png" class="img-fluid" alt="Angular Projesi Oluşturuldu"/>
                 </div>
-                <div class="col-sm-4">
+                <div class="col-lg-4">
                     Proje Angular CLI ortamındaki gibi oluşturuldu.
                     Tek fark, Visual Studio'nun kendisi için oluşturduğu ek proje dosyalarıydı.
                     Projeyle oluşturduğum uygulama bir web sayfasında görüntüleneceği için,
@@ -95,38 +96,93 @@
         </div>
         <div class="myrow">
 		    <h3>Projeyi Çalıştırmak</h3>
-            <div class="row mt-2">
-                <div class="col-sm-8">
+            <div class="row m-2">
+                <div class="col-lg-8">
                     <img src="images/Resim3_AngularProjesiCalistirmak.png" class="img-fluid" alt="Angular Projesi Çalıştırmak"/>
                 </div>
-                <div class="col-sm-4">
+                <div class="col-lg-4">
                     Visual Studio ortamından ayrılmadan,
                     az önce uygulama başlatıcısı olarak tarayıcıyı seçtiğim
                     düğmeyi tıklayarak uygulamayı çalıştırdım.
                     Bir süre sonra geri planda açılan komut penceresinde
-                    "ng serve" komutunun çalıştırıldığını gördüm.
+                    <kbd>ng serve</kbd> komutunun çalıştırıldığını gördüm.
                     Ekrana otomatik gelen tarayıcı penceresi
-                    localhost:4200 adresinden Angular uygulamasının
+                    <strong>localhost:4200</strong> adresinden Angular uygulamasının
                     geçici ilk şablonunu görüntüledi.
                 </div>
             </div>
             <br />
-            <i>Uygulamayı Visual Studio ortamında kapatınca
-               tarayıcı penceresi kapandı, ama komut penceresi açık kalmıştı.
-               Onu ayrıca kapatmam gerekti.
-            </i>
+            <div class="row m-2">
+               <p>
+               Uygulamayı Visual Studio ortamında çalıştırmışsanız,
+               uygulamayı kapattığınızda tarayıcı penceresi kapanır,
+               ama komut penceresi açık kalabilir. Onu da ayrıca kapatmanız gerekir.<br />
+               Ben yerel sunucuyu Powershell komut arabiriminden
+               çalıştırmayı tercih ettim.<br />
+               Uygulama sayfasına da normalde kullandığım tarayıcıda
+               <strong>localhost:4200</strong> adresinden eriştim.<br />
+               Böylelikle, Visual Studio ortamında yaptığım kod düzenlemelerinin
+               sonuçlarını tarayıcıda açık kalan uygulama sayfasında görebiliyordum.
+               </p>
+            </div>
         </div>
         <div class="myrow">
             <h3>Projeye npm Modülü Eklemek</h3>
-            <div class="row mt-2">
-                <div class="col-sm-8">
+            <div class="row m-2">
+                <div class="col-lg-8">
                     <img src="images/Resim4_npmBootstrapModülüEklemek.png" class="img-fluid" alt="Bootstrap Modülü Eklemek"/>
                 </div>
-                <div class="col-sm-4">
+                <div class="col-lg-4">
                     Bu uygulamanın web arayüzünde bootstrap kullanmaya karar vermiştim.
-                    Bu eklemeyi Powershell arabiriminde proje klasörüne inip,
-                    "<code>npm install bootstrap</code>" komutunu çalıştırarak yaptım.
+                    Bu eklemeyi Powershell arabiriminde proje klasörüne inip,<br />
+                    <kbd>npm install bootstrap</kbd> <br />
+                    komutunu çalıştırarak yaptım.
                 </div>
+            </div>
+            <div class="row m-2">
+                <p>
+                    Proje öğelerinin (components) html görünümlerinde
+                    Bootstrap stillerini kullanabilmek için,
+                    projenin <strong>angular.json</strong> dosyasına
+                    bootstrap stil ve skript dosyalarının referanslarını ekledim:
+                </p>
+    <pre>
+    <code class="fw-bold">
+    "styles": [
+        "node_modules/bootstrap/dist/css/bootstrap.min.css",
+        "src/styles.css"
+    ],
+    "scripts": [
+        "node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"
+    ]
+    </code>
+    </pre>
+                <p>
+                    Projenin uygulama öğesine ait
+                    <strong>app.component.html</strong>
+                    dosyasındaki geçici içerik şablonunu silip,
+                    yerine aşağıdaki deneme içeriğini yerleştirdiğimde
+                    bootstrap stillerinin beklediğim görünümü sağladığını gördüm.
+                </p>
+<pre>
+<code class="fw-bold">
+&lt;div class="container border border-primary rounded mt-5"&gt;
+  &lt;h1 class="text-center"&gt;{{title}} Uygulaması Çalışmaya Hazırdır!&lt;/h1&gt;
+
+  &lt;div class="row m-2"&gt;
+    &lt;div class="col border border-secondary"&gt;
+      &lt;h2 class="text-center"&gt;Soru Bankası&lt;/h2&gt;
+    &lt;/div&gt;
+    &lt;div class="col border border-secondary"&gt;
+      &lt;h2 class="text-center"&gt;Soru Bankası&lt;/h2&gt;
+    &lt;/div&gt;
+    &lt;div class="col border border-secondary"&gt;
+      &lt;h2 class="text-center"&gt;Soru Bankası&lt;/h2&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+</code>
+</pre>
             </div>
         </div>
     </div>
