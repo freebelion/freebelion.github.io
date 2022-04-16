@@ -205,22 +205,153 @@
 </div>
 
 <div class="container border border-primary rounded mt-2">
-    <h2>Angular Öğesi (Component) Eklemek</h2>
-    <p>
-        Artık projeye işlerlik kazandırma zamanı gelmişti.
-        Projeye, uygulamayla oluşturulacak soru bankalarını
-        temsil edecek yeni bir öğe (component) ekledim.
-    </p>
+    <h2>Angular Projesine Kodlar Eklemek</h2>
+
     <div class="row border border-secondary rounded m-1">
-        <div class="col-lg-8">
-            <img src="images/Resim6_TerminalYeniOgeOlusturmak.png" class="img-fluid" alt="Angular Öğesi Eklemek"/>
-        </div>
-        <div class="col-lg-4">
-            Uygulamayı çalıştırmak için yaptığım gibi,
-            Visual Studio ortamının kendi Terminal penceresini açtım,
-            ve oradan Powershell arabiriminden yeni öğe ekleyecek
-            Angular komutunu çalıştırdım.
-        </div>
+        <h3>Soru Bankasını Temsil Edecek <code>Testbank</code> Sınıfı</h3>
+        <p>
+            Artık projeye işlerlik kazandırma zamanı gelmişti.
+            Visual Studio ortamında açtığım terminal penceresinde aşağıdaki komutu çalıştırarak,
+            uygulamayla oluşturulacak soru bankalarını temsil edecek yeni bir sınıf (class) ekledim.
+        </p>
+        <pre>
+            <code>
+   ng generate class Testbank
+            </code>
+        </pre>
+    
+    <p>
+        Bu komutla projeye eklenen <b>testbank.ts</b> dosyasındaki sınıf tanımı
+        uygulama çalışırken oluşturulup düzenlenecek bir soru bankasını temsil edecekti.
+        Bu kod dosyasındaki sınıf tanımına, temsil edeceği soru bankasına ait
+        kimlik (<b>id</b>), isim (<b>name</b>) ve açıklama (<b>description</b>)
+        bilgilerini saklayacak üye değişken tanımları koydum:
+    </p>
+    <pre>
+        <code>
+private id: Guid;
+public name: string;
+public description: string;
+        </code>
+    </pre>
+
+    <p>
+        Farklı kullanıcıların bilgisayarlarından gelmiş olan
+        soru bankalarının bile ayırt edilmesini sağlasın diye,
+        <strong>Guid</strong> yani uzun bir tamsayı türünden
+        bir kimlik bilgisi olmalıydı.
+    </p>
+    <p>
+        Bu veri türünü kullanabilmek için, <b>npm</b> ile
+        ilgili modülü projeye ekledim:
+    </p>
+    <pre>
+        <code>
+npm install guid-typescript --save
+        </code>
+    </pre>
+
+    
+    <p>
+        <b>testbank.ts</b> kod dosyasına bu yeni modülün referansını ekledim
+        ve sınıf tanımındaki kurucu fonksiyonla her yeni nesneye ayırt edici 
+        bir kimlik olarak yeni bir <b>Guid</b> değeri atayacak komutu ekledim:
+    </p>
+    <pre>
+        <code>
+<strong>import { Guid } from 'guid-typescript';</strong>
+
+export class Testbank {
+    private id: Guid;
+    public name: string;
+    public description: string;
+
+    constructor() {
+    <strong>this.id = Guid.create();</strong>
+    this.name = "Testbank " + this.id.toString().split('-')[0];
+    this.description = "Testbank description";
+    }
+}
+        </code>
+    </pre>
+
+    <p>
+        Bu kurucu fonksiyonda soru bankasının adını <b>Guid</b> bilgisiyle
+        oluşturacak ve jenerik bir açıklama ekleyecek atamaları da eklemiştim.
+    </p>
+    <p><em>
+        <code>toString()</code> fonksiyonu ile <code>Guid</code> türü
+        kimlik bilgisi karakter dizgisine dönüştürmüştüm.<br />
+        Sonuç metnini de <code>'-'</code> karakterlerinin gözüktüğü yerlerden
+        ayırmak için <code>split()</code> fonksiyonunu kullandım.<br />
+        Bu fonksiyonun sonuçta oluşturduğu karakter dizgileri dizisinin
+        <code>[0]</code> numaralı ilk elemanı kimlik bilgisinin ilk kısmı
+        olarak soru bankası adına ekledim.<br />
+        Daha ileriki aşamalarda soru bankasının adını belirlemek
+        kullanıcıya bırakılacaktır; bu kodlar geçici ad belirlemek içindi.
+    </em></p>
+ 
+    </div>
+
+    <div class="row border border-secondary rounded m-1">
+        <h3>Soruyu Temsil Edecek <code>Question</code> Sınıfı</h3>
+        <p>
+            Bu uygulamanın oluşturacağı soru bankalarında,
+            metin biçimlendirmeye ve web sayfalarındaki temel düzey öğeleri
+            yerleştirme imkanı verecek HTML içeriği olan sorular olacak.<br />
+            Dolayısıyla, bir soruyu temsil edecek sınıfı yine<br />
+            <code>ng generate class Question</code><br />
+            komutuyla oluşturdum ve sınıf kod dosyasını başlangıçta
+            aşağıdaki gibi düzenledim:
+        </p>
+<pre>
+<code>
+import { Guid } from 'guid-typescript';
+
+export class Question {
+  private id: Guid;
+  public htmlContent: string;
+  
+  constructor() {
+    this.id = Guid.create();
+    this.htmlContent = "Question <b>" + this.id.toString().split('-')[0] + "</b>";
+  }
+}
+</code>
+</pre>
+        <p>
+            <b>testbank.ts</b> kod dosyasındaki sınıf tanımına da,
+            bir soru bankasının içereceği sorular dizisi için gerekli tanımı ekledim:
+        </p>
+<pre>
+<code>
+import { Guid } from 'guid-typescript';
+<strong>import { Question } from './question';</strong>
+
+export class Testbank {
+  private id: Guid;
+  public name: string;
+  public description: string;
+  public questions: Array<Question>;
+  
+  constructor() {
+    this.id = Guid.create();
+    this.name = "Testbank " + this.id.toString().split('-')[0];
+    this.description = "Testbank description";
+    <strong>this.questions = [];</strong>
+  }
+<strong>
+  addQuestion() {
+    this.questions.push(new Question);
+  }
+</strong>
+}
+</code>
+</pre>
+        <p>
+            Bu sınıf tanımındaki <b>addQuestion()</b> fonksiyonu da
+            soru bankasına yeni sorular eklenmesini sağlayacaktır.
+        </p>
     </div>
 </div>
 
