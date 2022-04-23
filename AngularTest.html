@@ -321,7 +321,9 @@ export class Question {
 </pre>
         <p>
             <b>testbank.ts</b> kod dosyasındaki sınıf tanımına da,
-            bir soru bankasının içereceği sorular dizisi için gerekli tanımı ekledim:
+            bir soru bankasının içereceği sorular dizisi 
+            ve herhangi bir anda seçili sorunun referansını 
+            saklayacak özellik tanımını ekledim:
         </p>
 <pre>
 <code>
@@ -332,7 +334,8 @@ export class Testbank {
   private id: Guid;
   public name: string;
   public description: string;
-  public questions: Array<Question>;
+  <strong>public questions: Array<Question>;</strong>
+  <strong>public selectedQuestion: Question | undefined;</strong>
   
   constructor() {
     this.id = Guid.create();
@@ -344,14 +347,193 @@ export class Testbank {
   addQuestion() {
     this.questions.push(new Question);
   }
+
+  selectQuestion(que: Question) {
+    this.selectedQuestion = que;
+  }
 </strong>
 }
 </code>
 </pre>
         <p>
-            Bu sınıf tanımındaki <b>addQuestion()</b> fonksiyonu da
-            soru bankasına yeni sorular eklenmesini sağlayacaktır.
+            Bu sınıf tanımındaki <b>addQuestion()</b> fonksiyonu
+            soru bankasına yeni sorular eklenmesini sağlayacakt,
+            <b>selectQuestion()</b> fonksiyonu da referansı gönderilen
+            bir soru nesnesini seçili olarak işaretleyecektir.
         </p>
+    </div>
+
+    <div class="row border border-secondary rounded m-1">
+        <h3>Seçeneği Temsil Edecek <code>Choice</code> Sınıfı</h3>
+        <p>
+            Çoktan seçmeli soruların alt kısmında yer alacak seçenekleri
+            temsilen oluşturduğum <code>Choice</code> sınıfının tanımı
+            son derece basitti:
+        </p>
+<pre>
+<code>
+export class Choice {
+  public htmlContent: string;
+
+  constructor() {
+    this.htmlContent = '&lt;i&gt;choice&lt;i&gt;';
+  }
+}
+</code>
+</pre>
+        <p>
+            Bir sorudaki seçenekler o soruya ait olacakları için
+            bir sorudan diğerine veya bir soru bankasından diğerine
+            transfer edilmeleri söz konusu değildi.
+            Bu nedenle ayırt edici bir <b>Guid</b> kimliğine gerek yoktu.<br />
+            Yalnızca biçimlendirilebilir bir metin içeriği olsun
+            diye, <b>htmlContent</b> diye bir özellik yeterliydi.
+        </p>
+        <p>
+            Tabi, bir soruda olacak seçenekleri temsilen,
+            <code>Question</code> sınıfı tanımında
+            bu <code>Choice</code> sınıfı türünden bir dizi tanımı
+            ve herhangi bir anda seçili olan seçeneğin
+            referansını saklayacak bir değişken tanımı da ekledim:
+        </p>
+<pre>
+<code>
+import { Guid } from 'guid-typescript';
+<strong>import { Choice } from './choice';</strong>
+
+export class Question {
+  private id: Guid;
+  public htmlContent: string;
+  <strong>public choices: Array<Choice>;</strong>
+  <strong>public selectedChoice: Choice | undefined;</strong>
+
+  constructor() {
+    this.id = Guid.create();
+    this.htmlContent = "Question <b>" + this.id.toString().split('-')[0] + "</b>";
+    <strong>this.choices = [];</strong>
+  }
+
+  addChoice() {
+    this.choices.push(new Choice);
+  }
+
+  selectChoice(cho: Choice) {
+    this.selectedChoice = cho;
+  }
+
+  deleteChoice(cho = this.selectedChoice) {
+    if (cho) {
+      let index = this.choices.indexOf(cho, 0);
+      if (index > -1) {
+        this.choices.splice(index, 1);
+      }
+    }
+  }
+}
+</code>
+</pre>
+    </div>
+</div>
+
+<div class="container border border-primary rounded mt-2">
+    <h2>Angular Projesine Görselleştirici Öğeler Eklemek</h2>
+        <p>
+            Yukarıda oluşturduğumuz sınıflar temsil ettikleri nesnelerin
+            (soru bankası, soru, seçenek) bilgilerini saklayacaktır,
+            ama bunlardan biri seçildiği zaman, seçili nesneye ait
+            ayrıntıları görüntüleyecek görselleştirici öğelere gerek vardır.
+        </p>
+    <div class="row border border-secondary rounded m-1">
+        <h3>Soru Bankasını Görselleştirecek <code>TestbankDetail</code> Öğesi</h3>
+            <p>
+                Seçili soru bankasının ayrıntılarını görüntüleyecek öğeyi
+                <code>ng generate component TestbankDetail</code><br />
+                komutuyla oluşturdum ve sınıf kod dosyasını 
+                aşağıdaki gibi düzenledim:
+            </p> 
+<pre>
+<code>
+import { Component, OnInit, Input } from '@angular/core';
+import { QuestionDetailComponent } from '../question-detail/question-detail.component';
+<strong>import { Testbank } from '../testbank';</strong>
+<strong>import { Question } from '../question';</strong>
+
+@Component({
+  selector: 'app-testbank-detail',
+  templateUrl: './testbank-detail.component.html',
+  styleUrls: ['./testbank-detail.component.css']
+})
+export class TestbankDetailComponent implements OnInit {
+
+  <strong>@Input() displayTestbank: Testbank | undefined;</strong>
+ 
+  constructor() { }
+
+  ngOnInit(): void {
+  }
+}
+</code>
+</pre>
+        <p>
+            Bu sınıf tanımı görüntüleyeceği soru bankasının referansını
+            <b>displaytestbank</b> adlı değişkeninde saklayacak.
+            O bilgiyi de kendisini kapsayan uygulama görselleştiricisinden
+            (<b>app.component</b>) alacağı için onu
+            <b>@Input</b> terimiyle etiketliyor.<br />
+            <em>Bunun anlamını bir aşağıda göreceğiz.</em>
+        </p>
+
+        <p> </p>
+
+        <p>
+            Görselleştirici sınıfın tanımı yukarıdaki gibiydi.
+            Asıl görseli yani soru bankasının ayrıntılı görünümünü
+            oluşturacak html dosyasını da şu şekilde düzenledim:
+        </p>
+<pre>
+<code>
+&lt;div class="container-fluid app-container" *ngIf="displayTestbank"&gt;
+  &lt;div class="row"&gt;
+    &lt;nav class="navbar navbar-expand mt-1 mb-1"&gt;
+      &lt;span class="label m-1"&gt;Editing Testbank&lt;/span&gt;
+      &lt;button type="button" class="btn btn-light btn-sm m-1"
+              (click)="displayTestbank.addQuestion()"&gt;
+        &lt;img class="img-fluid" src="assets/btnAddQuestion.png" width="25" alt="Add Question"&gt;
+        Add Question
+      &lt;/button&gt;
+      &lt;button type="button" class="btn btn-light btn-sm m-1"
+              (click)="displayTestbank.deleteQuestion()"&gt;
+        &lt;img class="img-fluid" src="assets/btnDeleteQuestion.png" width="25" alt="Delete Question"&gt;
+        Delete Question
+      &lt;/button&gt;
+    &lt;/nav&gt;
+  &lt;/div&gt;
+
+  &lt;div class="row border border-primary rounded"&gt;
+    &lt;input type="text" class="form-control" [(ngModel)]="displayTestbank.name"/&gt;
+    &lt;textarea class="form-control" [(ngModel)]="displayTestbank.description" rows="3"&gt;
+
+    &lt;/textarea&gt;
+  &lt;/div&gt;
+
+  &lt;div class="row mt-2 mb-2"&gt;
+    &lt;app-question-detail [displayQuestion]="displayTestbank.selectedQuestion"&gt;&lt;/app-question-detail&gt;
+  &lt;/div&gt;
+
+  &lt;div class="row mt-2 mb-2"&gt;
+    &lt;div *ngFor="let que of displayTestbank.questions" class="card border border-primary mt-1 mb-1" (click)="displayTestbank.selectQuestion(que)"
+            [class.selected]="que === displayTestbank.selectedQuestion"&gt;
+      &lt;div class="card-body" [innerHTML]="que.htmlContent"&gt;
+     
+      &lt;/div&gt;
+      &lt;div class="card-footer row"&gt;
+        &lt;div *ngFor="let cho of que.choices; index as i" class="{{que.colClass}}" [innerHTML]="cho.htmlContent"&gt;&lt;/div&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+</code>
+</pre>
     </div>
 </div>
 
