@@ -441,85 +441,115 @@ export class Question {
             Yukarıda oluşturduğumuz sınıflar temsil ettikleri nesnelerin
             (soru bankası, soru, seçenek) bilgilerini saklayacaktır,
             ama bunlardan biri seçildiği zaman, seçili nesneye ait
-            ayrıntıları görüntüleyecek görselleştirici öğelere gerek vardır.
+            ayrıntıları görüntüleyecek görselleştirici öğelere gerek vardır.<br />
+            Bunların kodlarına projeden bakabilirsiniz.
+            Burada yalnızca öğelere ait .ts uzantılı kod dosyaları
+            ve asıl görüntüleme işini yapan html dosyalarından
+            bazı önemli ayrıntıları özetleyeceğim.
         </p>
-    <div class="row border border-secondary rounded m-1">
-        <h3>Soru Bankasını Görselleştirecek <code>TestbankDetail</code> Öğesi</h3>
-            <p>
-                Seçili soru bankasının ayrıntılarını görüntüleyecek öğeyi
-                <code>ng generate component TestbankDetail</code><br />
-                komutuyla oluşturdum ve sınıf kod dosyasını 
-                aşağıdaki gibi düzenledim:
-            </p> 
+    <ul class="list-group m-1">
+        <li class="list-group-item">
+        <h3>Uygulamayı Görselleştirecek <code>App</code> Öğesi</h3>
+        <p>
+            Bu öğenin <b>app.component.ts</b>kod dosyasındaki         
+            <b>testbanks</b> özelliği listelenecek soru bankaları dizisini,
+            <b>selectedTestbank</b> ise ayrıntılarını düzenlemek
+            için seçilen soru bankasının referansını saklamak içindir.
+        </p>
+        <p>
+            Uygulama görünümünü oluşturacak
+            <b>app.component.html</b> dosyasında,
+            sol sütunda (<code>&lt;div class="col-lg-4"&gt;</code>)
+            soru bankaları dizisinin elemanlarını
+            Bootstrap <b>card</b> öğeleri olarak listelettim:
+        </p>
 <pre>
 <code>
-import { Component, OnInit, Input } from '@angular/core';
-import { QuestionDetailComponent } from '../question-detail/question-detail.component';
-<strong>import { Testbank } from '../testbank';</strong>
-<strong>import { Question } from '../question';</strong>
-
-@Component({
-  selector: 'app-testbank-detail',
-  templateUrl: './testbank-detail.component.html',
-  styleUrls: ['./testbank-detail.component.css']
-})
-export class TestbankDetailComponent implements OnInit {
-
-  <strong>@Input() displayTestbank: Testbank | undefined;</strong>
- 
-  constructor() { }
-
-  ngOnInit(): void {
-  }
-}
+      &lt;div *ngFor="let tb of testbanks" class="card border border-primary mt-1 mb-1" (click)="selectTestbank(tb)"
+            [class.selected]="tb === selectedTestbank"&gt;
+         &lt;div class="card-header"&gt;&lt;h2&gt;{{tb.name}}&lt;/h2&gt;&lt;/div&gt;
+         &lt;div class="card-body"&gt;{{tb.description}}&lt;/div&gt;
+      &lt;/div&gt;
+</code>
+</pre>
+        </li>
+        <li class="list-group-item">
+        <p>
+            Yine <b>app.component.html</b> dosyasında,
+            sağ sütunda seçili soru bankasını görüntüleyecek öğeyi yerleştirdim:
+        </p>
+<pre>
+<code>
+    &lt;div class="col-lg-8" *ngIf="selectedTestbank"&gt;
+      &lt;app-testbank-detail [displayTestbank]="selectedTestbank"&gt;&lt;/app-testbank-detail&gt;
+    &lt;/div&gt;
 </code>
 </pre>
         <p>
-            Bu sınıf tanımı görüntüleyeceği soru bankasının referansını
-            <b>displaytestbank</b> adlı değişkeninde saklayacak.
-            O bilgiyi de kendisini kapsayan uygulama görselleştiricisinden
-            (<b>app.component</b>) alacağı için onu
-            <b>@Input</b> terimiyle etiketliyor.<br />
-            <em>Bunun anlamını bir aşağıda göreceğiz.</em>
+            Yukarıdaki html blokundaki <b>ngIf</b> ifadesiyle,
+            soru bankası ayrıntılarının
+            ancak bir soru bankası seçilmişse
+            görüntülenmesini sağladım.
         </p>
-
-        <p> </p>
-
+        </li>
+        <li class="list-group-item">
         <p>
-            Görselleştirici sınıfın tanımı yukarıdaki gibiydi.
-            Asıl görseli yani soru bankasının ayrıntılı görünümünü
-            oluşturacak html dosyasını da şu şekilde düzenledim:
+            Sol sütundaki soru bankaları listesinde seçili soru bankasına ait
+            <b>card</b> bölümüne özel bir stil uygulamak için<br />
+            <code>[class.selected]="tb === selectedTestbank"</code>
+            koşul ifadesini kullanmıştım. <br />
+            Bu ifadededeki <b>===</b> kontrolü ile
+            ile kart bölümlerinde görüntülenen soru bankası nesnesinin
+            referansı seçili soru bankası referansıyla karşılaştırılıyor,
+            sonuç olumluysa, projenin <b>styles.css</b> dosyasındaki
+            <b>selected</b> stil tanımı uygulanıyordu.
         </p>
+        <p>
+            Sağ sütunda ise görüntülenecek soru bankası referansını
+            seçili soru bankası referansına eşitlemek için
+            <code>[displayTestbank]="selectedTestbank"</code>
+            ifadesini kullandım.
+        </p>
+        </li>
+        <li class="list-group-item">
+            <h3>Seçili Soru Bankasını Görselleştirecek <code>TestbankDetail</code> Öğesi</h3>
+            <p>
+                Bu öğenin <b>testbank-detail.component.ts</b> kpod dosyasında
+                görüntülenecek soru bankasının referansını saklamak için
+                <br />
+                <code>@Input() displayTestbank: Testbank | undefined;</code>
+                <br />
+                değişken tanımı var.<br />
+                Bu değişkende saklanacak referans,
+                bir önceki maddede gösterdiğim gibi,
+                uygulama görselleştiricisindeki
+                seçili soru bankası referansından aktarılıyor.
+            </p>
+        </li>
+        <li class="list-group-item">
+            <p>
+                Bu öğenin görselini oluşturan <b>testbank-detail.html</b>
+                dosyasında gördüğümüz gibi, üst kısımda görüntülenen
+                soru bankasının isim ve açıklama bilgilerini düzenleme
+                imkanı veren form öğeleri var:
+            </p>
 <pre>
 <code>
-&lt;div class="container-fluid app-container" *ngIf="displayTestbank"&gt;
-  &lt;div class="row"&gt;
-    &lt;nav class="navbar navbar-expand mt-1 mb-1"&gt;
-      &lt;span class="label m-1"&gt;Editing Testbank&lt;/span&gt;
-      &lt;button type="button" class="btn btn-light btn-sm m-1"
-              (click)="displayTestbank.addQuestion()"&gt;
-        &lt;img class="img-fluid" src="assets/btnAddQuestion.png" width="25" alt="Add Question"&gt;
-        Add Question
-      &lt;/button&gt;
-      &lt;button type="button" class="btn btn-light btn-sm m-1"
-              (click)="displayTestbank.deleteQuestion()"&gt;
-        &lt;img class="img-fluid" src="assets/btnDeleteQuestion.png" width="25" alt="Delete Question"&gt;
-        Delete Question
-      &lt;/button&gt;
-    &lt;/nav&gt;
-  &lt;/div&gt;
-
   &lt;div class="row border border-primary rounded"&gt;
     &lt;input type="text" class="form-control" [(ngModel)]="displayTestbank.name"/&gt;
     &lt;textarea class="form-control" [(ngModel)]="displayTestbank.description" rows="3"&gt;
 
     &lt;/textarea&gt;
   &lt;/div&gt;
-
-  &lt;div class="row mt-2 mb-2"&gt;
-    &lt;app-question-detail [displayQuestion]="displayTestbank.selectedQuestion"&gt;&lt;/app-question-detail&gt;
-  &lt;/div&gt;
-
+</code>
+</pre>
+            <p>
+                Daha üstteki bir gezinti çubuğunda (<b>navbar</b>)
+                tıklanınca soru eklemek/silmek için düğme kontrolleri,
+                altta ise sorular listesini görüntüleyecek bir bölme var:
+            </p>
+<pre>
+<code>
   &lt;div class="row mt-2 mb-2"&gt;
     &lt;div *ngFor="let que of displayTestbank.questions" class="card border border-primary mt-1 mb-1" (click)="displayTestbank.selectQuestion(que)"
             [class.selected]="que === displayTestbank.selectedQuestion"&gt;
@@ -531,10 +561,10 @@ export class TestbankDetailComponent implements OnInit {
       &lt;/div&gt;
     &lt;/div&gt;
   &lt;/div&gt;
-&lt;/div&gt;
 </code>
 </pre>
-    </div>
+        </li>
+    </ul>
 </div>
 
 </body>
