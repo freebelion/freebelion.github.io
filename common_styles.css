@@ -1,6 +1,7 @@
 ﻿body {
     background-image: url("beige-tiles.png");
     background-repeat: repeat;
+    font-size: large;
 }
 
 .list-group-item {
